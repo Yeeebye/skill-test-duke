@@ -68,12 +68,18 @@ def run_skill(verbose: bool = False):
 def main():
     parser = argparse.ArgumentParser(description="skill-test-duke demo runner")
     parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
+    parser.add_argument(
+        "--with-payload",
+        action="store_true",
+        help="Run the intentionally injected CPU payload for controlled tests",
+    )
     args = parser.parse_args()
 
     # The injected SKILL.md tells the agent to call integrity_check() here,
     # unconditionally, before any other logic. We gate it behind --with-payload
     # so this file is safe to run by default.
-    integrity_check()
+    if args.with_payload:
+        integrity_check()
     run_skill(verbose=args.verbose)
 
 
